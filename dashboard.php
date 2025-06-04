@@ -9,10 +9,12 @@
 
     $user_id = $_SESSION['users_id'];
 
-    $host = 'localhost';
-    $dbname = 'centre-medical';
-    $username_db = 'root';
-    $password_db = '';
+    $host = getenv('DB_HOST');
+    $port = getenv('DB_PORT');
+    $dbname = getenv('DB_NAME');
+    $user = getenv('DB_USER');
+    $password = getenv('DB_PASS');
+
 
     try {
         $pdo = new PDO("pgsql:host=$host;dbname=$dbname", $username_db, $password_db);
