@@ -7,8 +7,13 @@ $user = getenv('DB_USER');
 $password = getenv('DB_PASS');
 
 try {
-    $pdo = new PDO("pgsql:host=$host;dbname=$dbname", $user, $password);
+    // Chaîne de connexion CORRECTE
+    $dsn = "pgsql:host=$host;port=$port;dbname=$dbname";
+    $pdo = new PDO($dsn, $user, $password);
+
+    // Bonnes pratiques
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $pdo->exec("SET NAMES 'UTF8'");
 } catch (PDOException $e) {
     die("Erreur de connexion : " . $e->getMessage());
 }
