@@ -1,0 +1,876 @@
+/* Reset et base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    /* Couleurs officielles service public français */
+    --bleu-france: #000091;
+    --bleu-france-light: #6A6AF4;
+    --rouge-marianne: #E1000F;
+    --blanc: #FFFFFF;
+    --gris-clair: #F6F6F6;
+    --gris-moyen: #929292;
+    --gris-fonce: #333333;
+    --vert-emeraude: #00A95F;
+    --vert-emeraude-light: #C3FAD5;
+    --orange-terre: #FA5C00;
+    
+    /* Typographie */
+    --font-primary: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --font-secondary: 'Arial', sans-serif;
+    
+    /* Espacements */
+    --spacing-xs: 0.5rem;
+    --spacing-sm: 1rem;
+    --spacing-md: 1.5rem;
+    --spacing-lg: 2rem;
+    --spacing-xl: 3rem;
+    
+    /* Transitions */
+    --transition-fast: 0.2s ease;
+    --transition-normal: 0.3s ease;
+    --transition-slow: 0.5s ease;
+    
+    /* Ombres */
+    --shadow-light: 0 2px 4px rgba(0, 0, 0, 0.1);
+    --shadow-medium: 0 4px 8px rgba(0, 0, 0, 0.15);
+    --shadow-heavy: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+/* Variables pour le thème sombre */
+[data-theme="dark"] {
+    --blanc: #1E1E1E;
+    --gris-clair: #2A2A2A;
+    --gris-fonce: #E0E0E0;
+    --gris-moyen: #B0B0B0;
+    --shadow-light: 0 2px 4px rgba(255, 255, 255, 0.1);
+    --shadow-medium: 0 4px 8px rgba(255, 255, 255, 0.15);
+    --shadow-heavy: 0 8px 24px rgba(255, 255, 255, 0.2);
+}
+
+/* ============================================
+   SÉLECTEUR DE THÈME
+   ============================================ */
+
+.theme-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    background: var(--blanc);
+    border: 2px solid var(--bleu-france);
+    border-radius: 50px;
+    padding: 8px 16px;
+    cursor: pointer;
+    box-shadow: var(--shadow-medium);
+    transition: all var(--transition-normal);
+    font-family: var(--font-primary);
+    font-weight: 600;
+    color: var(--bleu-france);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.theme-toggle:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-heavy);
+    background: var(--bleu-france);
+    color: var(--blanc);
+}
+
+.theme-toggle::before {
+    content: "🌙";
+    font-size: 1.2rem;
+}
+
+[data-theme="dark"] .theme-toggle::before {
+    content: "☀️";
+}
+
+/* Animation keyframes */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes shake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-5px);
+    }
+    75% {
+        transform: translateX(5px);
+    }
+}
+
+@keyframes glow {
+    0% {
+        box-shadow: 0 0 5px var(--vert-emeraude);
+    }
+    50% {
+        box-shadow: 0 0 20px var(--vert-emeraude), 0 0 30px var(--vert-emeraude);
+    }
+    100% {
+        box-shadow: 0 0 5px var(--vert-emeraude);
+    }
+}
+
+/* Styles de base */
+body {
+    font-family: var(--font-primary);
+    background: linear-gradient(135deg, var(--gris-clair) 0%, #E8E8E8 100%);
+    color: var(--gris-fonce);
+    line-height: 1.6;
+    min-height: 100vh;
+    animation: fadeIn 0.8s ease;
+    transition: all var(--transition-normal);
+}
+
+[data-theme="dark"] body {
+    background: linear-gradient(135deg, #1A1A1A 0%, var(--gris-clair) 100%);
+}
+
+/* En-tête avec marianne */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--bleu-france), var(--blanc), var(--rouge-marianne));
+    z-index: 1000;
+}
+
+/* ============================================
+   STYLES SPÉCIFIQUES POUR AJOUT_RDV
+   ============================================ */
+
+.ajout-rdv-container {
+    max-width: 600px;
+    margin: 3vh auto;
+    padding: var(--spacing-xl);
+    background: var(--blanc);
+    border-radius: 20px;
+    box-shadow: var(--shadow-heavy);
+    position: relative;
+    overflow: hidden;
+    animation: fadeIn 1s ease;
+    border: 1px solid rgba(0, 0, 145, 0.1);
+}
+
+.ajout-rdv-container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 8px;
+    background: linear-gradient(90deg, var(--bleu-france), var(--vert-emeraude), var(--orange-terre));
+}
+
+.ajout-rdv-container::after {
+    content: "➕ 📅";
+    position: absolute;
+    top: var(--spacing-md);
+    right: var(--spacing-md);
+    font-size: 1.5rem;
+    opacity: 0.3;
+    animation: pulse 2s infinite;
+}
+
+.ajout-rdv-title {
+    color: var(--bleu-france);
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+    font-size: 2.2rem;
+    font-weight: 700;
+    position: relative;
+    animation: slideInLeft 0.6s ease;
+}
+
+.ajout-rdv-title::after {
+    content: "";
+    display: block;
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--vert-emeraude), var(--bleu-france));
+    margin: var(--spacing-sm) auto;
+    border-radius: 2px;
+    animation: glow 2s infinite;
+}
+
+/* ============================================
+   STYLES POUR LES FORMULAIRES
+   ============================================ */
+
+.container {
+    max-width: 450px;
+    margin: 5vh auto;
+    padding: var(--spacing-xl);
+    background: var(--blanc);
+    border-radius: 16px;
+    box-shadow: var(--shadow-heavy);
+    position: relative;
+    overflow: hidden;
+    animation: fadeIn 1s ease;
+}
+
+.container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: linear-gradient(90deg, var(--bleu-france), var(--vert-emeraude));
+}
+
+h1 {
+    color: var(--bleu-france);
+    text-align: center;
+    margin-bottom: var(--spacing-lg);
+    font-size: 2rem;
+    font-weight: 700;
+    position: relative;
+    animation: slideInLeft 0.6s ease;
+}
+
+h1::after {
+    content: "";
+    display: block;
+    width: 60px;
+    height: 3px;
+    background: var(--vert-emeraude);
+    margin: var(--spacing-sm) auto;
+    border-radius: 2px;
+}
+
+/* Styles des formulaires */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+label {
+    color: var(--gris-fonce);
+    font-weight: 600;
+    margin-bottom: var(--spacing-xs);
+    display: block;
+    transition: color var(--transition-fast);
+    position: relative;
+}
+
+label strong {
+    color: var(--bleu-france);
+}
+
+input[type="text"],
+input[type="username"],
+input[type="email"],
+input[type="password"],
+input[type="tinyint"],
+input[type="date"],
+select {
+    width: 100%;
+    padding: 14px 18px;
+    border: 2px solid #E0E0E0;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-family: var(--font-primary);
+    transition: all var(--transition-normal);
+    background: var(--blanc);
+    cursor: pointer;
+    position: relative;
+}
+
+input:focus,
+select:focus {
+    outline: none;
+    border-color: var(--bleu-france);
+    box-shadow: 0 0 0 4px rgba(0, 0, 145, 0.15);
+    transform: translateY(-3px);
+    background: linear-gradient(145deg, var(--blanc), #f8f9ff);
+}
+
+input:invalid:not(:focus):not(:placeholder-shown),
+select:invalid:not(:focus):not([value=""]) {
+    border-color: var(--rouge-marianne);
+    animation: shake 0.5s ease;
+}
+
+/* ============================================
+   STYLES SPÉCIAUX POUR SELECT PATIENT (users)
+   ============================================ */
+
+#users {
+    background: linear-gradient(145deg, var(--blanc), #f8f9ff);
+    border: 2px solid var(--vert-emeraude);
+    position: relative;
+    font-weight: 500;
+}
+
+#users::before {
+    content: "👤";
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.2rem;
+    pointer-events: none;
+}
+
+#users {
+    padding-left: 45px;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2300A95F' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 20px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+#users:hover {
+    border-color: var(--vert-emeraude);
+    box-shadow: 0 0 15px rgba(0, 169, 95, 0.3);
+    animation: glow 1s ease;
+}
+
+#users:focus {
+    border-color: var(--vert-emeraude);
+    box-shadow: 0 0 0 4px rgba(0, 169, 95, 0.2);
+    background: linear-gradient(145deg, var(--blanc), #f0fff4);
+}
+
+#users option {
+    padding: 12px 16px;
+    background: var(--blanc);
+    color: var(--gris-fonce);
+    border-bottom: 1px solid #E0E0E0;
+}
+
+#users option:hover {
+    background: var(--vert-emeraude-light);
+    color: var(--gris-fonce);
+}
+
+#users option:first-child {
+    color: var(--gris-moyen);
+    font-style: italic;
+}
+
+/* ============================================
+   STYLES SPÉCIAUX POUR INPUT DATE
+   ============================================ */
+
+#date,
+input[type="date"] {
+    background: linear-gradient(145deg, var(--blanc), #fff8f0);
+    border: 2px solid var(--orange-terre);
+    position: relative;
+    font-weight: 500;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23FA5C00' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3crect x='3' y='4' width='18' height='18' rx='2' ry='2'%3e%3c/rect%3e%3cline x1='16' y1='2' x2='16' y2='6'%3e%3c/line%3e%3cline x1='8' y1='2' x2='8' y2='6'%3e%3c/line%3e%3cline x1='3' y1='10' x2='21' y2='10'%3e%3c/line%3e%3c/svg%3e");
+    background-size: 22px;
+    cursor: pointer;
+    opacity: 0.8;
+    transition: all var(--transition-fast);
+    padding: 4px;
+    border-radius: 4px;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator:hover {
+    opacity: 1;
+    background-color: rgba(250, 92, 0, 0.1);
+    transform: scale(1.1);
+}
+
+input[type="date"]:hover {
+    border-color: var(--orange-terre);
+    box-shadow: 0 0 15px rgba(250, 92, 0, 0.3);
+    animation: glow 1s ease;
+}
+
+input[type="date"]:focus {
+    border-color: var(--orange-terre);
+    box-shadow: 0 0 0 4px rgba(250, 92, 0, 0.2);
+    background: linear-gradient(145deg, var(--blanc), #fff8f0);
+}
+
+/* Style général pour les autres selects et inputs */
+select:not(#users) {
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23929292' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 18px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+select:not(#users):hover {
+    border-color: var(--bleu-france-light);
+    cursor: pointer;
+}
+
+select:not(#users) option {
+    padding: 8px 12px;
+    background: var(--blanc);
+    color: var(--gris-fonce);
+}
+
+select:not(#users) option:hover {
+    background: var(--bleu-france-light);
+    color: var(--blanc);
+}
+
+/* ============================================
+   BOUTONS
+   ============================================ */
+
+.btn {
+    background: linear-gradient(135deg, var(--bleu-france), var(--bleu-france-light));
+    color: var(--blanc);
+    border: none;
+    padding: 16px 32px;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    margin: var(--spacing-md) 0;
+    box-shadow: var(--shadow-light);
+}
+
+.btn::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left var(--transition-slow);
+}
+
+.btn:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-heavy);
+    animation: pulse 0.3s ease;
+    background: linear-gradient(135deg, var(--vert-emeraude), var(--bleu-france));
+}
+
+.btn:hover::before {
+    left: 100%;
+}
+
+.btn:active {
+    transform: translateY(-2px);
+}
+
+/* Bouton spécial pour ajout RDV */
+.btn-ajout-rdv {
+    background: linear-gradient(135deg, var(--vert-emeraude), var(--orange-terre));
+    font-size: 1.2rem;
+    padding: 18px 36px;
+    border-radius: 15px;
+    position: relative;
+}
+
+.btn-ajout-rdv::after {
+    content: "✚";
+    margin-left: 8px;
+    font-size: 1.3rem;
+}
+
+/* ============================================
+   LIENS
+   ============================================ */
+
+a {
+    color: var(--bleu-france);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+    position: relative;
+}
+
+a::after {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--vert-emeraude);
+    transition: width var(--transition-normal);
+}
+
+a:hover {
+    color: var(--vert-emeraude);
+}
+
+a:hover::after {
+    width: 100%;
+}
+
+p {
+    text-align: center;
+    margin: var(--spacing-md) 0;
+    color: var(--gris-moyen);
+}
+
+/* ============================================
+   STYLES POUR LES DASHBOARDS
+   ============================================ */
+
+/* Layout avec sidebar */
+body:has(aside) {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    min-height: 100vh;
+    gap: 0;
+}
+
+/* Sidebar */
+aside {
+    background: linear-gradient(180deg, var(--bleu-france), var(--bleu-france-light));
+    color: var(--blanc);
+    padding: var(--spacing-lg);
+    box-shadow: var(--shadow-medium);
+    animation: slideInLeft 0.8s ease;
+    position: relative;
+}
+
+aside::before {
+    content: "🏥";
+    display: block;
+    font-size: 3rem;
+    text-align: center;
+    margin-bottom: var(--spacing-lg);
+    animation: pulse 2s infinite;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+nav li {
+    margin-bottom: var(--spacing-sm);
+    animation: fadeIn 1s ease;
+    animation-delay: 0.3s;
+    animation-fill-mode: both;
+}
+
+nav li:nth-child(2) {
+    animation-delay: 0.5s;
+}
+
+nav a {
+    display: block;
+    padding: 12px 16px;
+    color: var(--blanc);
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all var(--transition-normal);
+    position: relative;
+    overflow: hidden;
+}
+
+nav a::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    transition: left var(--transition-normal);
+}
+
+nav a:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateX(10px);
+}
+
+nav a:hover::before {
+    left: 100%;
+}
+
+/* Contenu principal */
+main {
+    padding: var(--spacing-xl);
+    animation: fadeIn 1s ease;
+    animation-delay: 0.4s;
+    animation-fill-mode: both;
+}
+
+/* Liste des rendez-vous */
+ul:not(nav ul) {
+    list-style: none;
+    display: grid;
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-lg);
+}
+
+li:not(nav li) {
+    background: var(--blanc);
+    padding: var(--spacing-lg);
+    border-radius: 12px;
+    box-shadow: var(--shadow-light);
+    border-left: 4px solid var(--vert-emeraude);
+    transition: all var(--transition-normal);
+    animation: fadeIn 0.8s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+li:not(nav li)::before {
+    content: "📅";
+    position: absolute;
+    top: var(--spacing-md);
+    right: var(--spacing-md);
+    font-size: 1.5rem;
+    opacity: 0.3;
+}
+
+li:not(nav li):hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-medium);
+    border-left-color: var(--bleu-france);
+}
+
+li:not(nav li):nth-child(even) {
+    animation-delay: 0.2s;
+}
+
+/* Message vide */
+main p {
+    text-align: center;
+    font-size: 1.2rem;
+    color: var(--gris-moyen);
+    margin-top: var(--spacing-xl);
+    padding: var(--spacing-xl);
+    background: var(--blanc);
+    border-radius: 12px;
+    box-shadow: var(--shadow-light);
+    animation: fadeIn 1s ease;
+}
+
+/* ============================================
+   STYLES POUR DASHBOARD ADMIN
+   ============================================ */
+
+/* Tables admin */
+table {
+    width: 100%;
+    max-width: 600px;
+    margin: var(--spacing-lg) auto;
+    background: var(--blanc);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow-medium);
+    animation: fadeIn 0.8s ease;
+}
+
+th, td {
+    padding: var(--spacing-md);
+    text-align: left;
+    border-bottom: 1px solid #E0E0E0;
+}
+
+th {
+    background: var(--gris-clair);
+    font-weight: 600;
+    color: var(--gris-fonce);
+}
+
+tr:hover {
+    background: var(--vert-emeraude-light);
+    transition: background var(--transition-fast);
+}
+
+/* Boutons dans les tables */
+button[type="submit"] {
+    background: var(--vert-emeraude);
+    color: var(--blanc);
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    font-weight: 500;
+}
+
+button[type="submit"]:hover {
+    background: #00954A;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-light);
+}
+
+/* ============================================
+   ANIMATIONS SPÉCIALES
+   ============================================ */
+
+/* Animation de chargement */
+.loading {
+    position: relative;
+}
+
+.loading::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid var(--gris-clair);
+    border-top-color: var(--bleu-france);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+@media (max-width: 768px) {
+    body:has(aside) {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr;
+    }
+    
+    aside {
+        padding: var(--spacing-md);
+    }
+    
+    aside::before {
+        font-size: 2rem;
+        margin-bottom: var(--spacing-md);
+    }
+    
+    .container,
+    .ajout-rdv-container {
+        margin: 2vh var(--spacing-md);
+        padding: var(--spacing-lg);
+    }
+    
+    h1,
+    .ajout-rdv-title {
+        font-size: 1.5rem;
+    }
+    
+    nav a:hover {
+        transform: none;
+    }
+    
+    li:not(nav li):hover {
+        transform: none;
+    }
+    
+    .theme-toggle {
+        top: 10px;
+        right: 10px;
+        padding: 6px 12px;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .container,
+    .ajout-rdv-container {
+        margin: var(--spacing-md);
+        padding: var(--spacing-md);
+    }
+    
+    main {
+        padding: var(--spacing-md);
+    }
+    
+    table {
+        font-size: 0.9rem;
+    }
+    
+    th, td {
+        padding: var(--spacing-sm);
+    }
+    
+    .theme-toggle {
+        position: relative;
+        top: auto;
+        right: auto;
+        margin: var(--spacing-sm) auto;
+        display: block;
+        width: fit-content;
+    }
+}
+
+/* ============================================
+   ACCESSIBILITÉ
+   ============================================ */
+
+/* Focus visible pour accessibilité */
+*:focus-visible {
+    outline: 2px solid var(--bleu-france);
+    outline-offset: 2px;
+}
+
+/* Réduction des animations pour ceux qui les préfèrent */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
